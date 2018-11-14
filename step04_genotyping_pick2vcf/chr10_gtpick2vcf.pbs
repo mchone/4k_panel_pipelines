@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N get_chr10
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:00
+#PBS -e errlog_chr10
+
+cd $PBS_O_WORKDIR
+
+zcat chr10_558snp.ref.vcf.gz |cut -f 1-5 > chr10_col5
+perl vcf_get3.pl chr10_samtools.vcf chr10_col5 chr10_heisnp.vcf
+cat head chr10_heisnp.vcf > chr10_tmp
+mv chr10_tmp chr10_heisnp.vcf
+gzip chr10_heisnp.vcf
+rm get_chr10.o*
+rm errlog_chr10
+rm chr10_tmp

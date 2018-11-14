@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N get_chr09
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:00
+#PBS -e errlog_chr09
+
+cd $PBS_O_WORKDIR
+
+zcat chr09_558snp.ref.vcf.gz |cut -f 1-5 > chr09_col5
+perl vcf_get3.pl chr09_samtools.vcf chr09_col5 chr09_heisnp.vcf
+cat head chr09_heisnp.vcf > chr09_tmp
+mv chr09_tmp chr09_heisnp.vcf
+gzip chr09_heisnp.vcf
+rm get_chr09.o*
+rm errlog_chr09
+rm chr09_tmp

@@ -1,0 +1,26 @@
+#!/bin/bash
+#PBS -N chr11_g2v
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:030
+#PBS -e errlog_chr11_g2v
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+perl gt_to_vcf_for_beagle.pl chr11_4k.txt
+awk '{if ($4==0){print;}}' chr11_4k.txt_per >chr11_tmp
+awk '{if ($5<0.06){print;}}' chr11_tmp >chr11_tmp2
+awk '{if($3>0){print;}}' chr11_tmp2 > chr11_tmp3
+cut -f 1 chr11_tmp3 > chr11.list
+cp chr11_4k.txt_out chr11_out
+perl vcf_get.pl chr11
+awk '{if (length($4)==1){print;}}' chr11_snp.vcf > chr11_tmp1
+awk '{if (length($5)==1){print;}}' chr11_tmp1 >chr11_snp.vcf
+cut -f 2 chr11_snp.vcf > chr11_list
+awk '{print "Chr1",$1}' chr11_list > chr11.list
+rm chr11_tmp*
+rm chr11_list
+rm chr11_g2v.o*
+rm chr11_out
+rm errlog_chr11_g2v
+qsub chr11_beagle_ref.pbs

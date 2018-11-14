@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -N 4771_prune
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:00
+#PBS -e errlog_4771_prune
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+plink --bfile 4771 --indep-pairwise 50 10 0.1
+plink --bfile 4771 --extract plink.prune.in --make-bed --out pruned4771

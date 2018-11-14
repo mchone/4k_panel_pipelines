@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N get_chr04
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:00
+#PBS -e errlog_chr04
+
+cd $PBS_O_WORKDIR
+
+zcat chr04_558snp.ref.vcf.gz |cut -f 1-5 > chr04_col5
+perl vcf_get3.pl chr04_samtools.vcf chr04_col5 chr04_heisnp.vcf
+cat head chr04_heisnp.vcf > chr04_tmp
+mv chr04_tmp chr04_heisnp.vcf
+gzip chr04_heisnp.vcf
+rm get_chr04.o*
+rm errlog_chr04
+rm chr04_tmp

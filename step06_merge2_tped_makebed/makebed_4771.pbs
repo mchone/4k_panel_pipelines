@@ -1,0 +1,20 @@
+#!/bin/bash
+#PBS -N makebed_4771
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:030
+#PBS -e errlog_4771
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+cat chr01.tped chr02.tped chr03.tped chr04.tped chr05.tped chr06.tped chr07.tped chr08.tped chr09.tped chr10.tped chr11.tped chr12.tped > 4771.tped
+plink --tfile 4771 --allow-no-sex --make-bed --out 4771
+#cut -f 1-4,257-459,2255,2307,2378,2491,2545,2720,2811,2832,2917,2920,2932,3013,3117,3276,3306,3325,3498,3502,3596,3599,3614,3620,3635,3650,4200,4401-4
+#775 4771.tped > 603.tped
+#cp 603.tped aaa
+#perl -pi -e 's/A A/A/g' aaa
+#perl -pi -e 's/G G/G/g' aaa
+#perl -pi -e 's/T T/T/g' aaa
+#perl -pi -e 's/C C/C/g' aaa
+#perl -pi -e 's/0 0/N/g' aaa
+#shuf -n10000 aaa > bbb

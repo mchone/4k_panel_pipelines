@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N get_chr08
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:00
+#PBS -e errlog_chr08
+
+cd $PBS_O_WORKDIR
+
+zcat chr08_558snp.ref.vcf.gz |cut -f 1-5 > chr08_col5
+perl vcf_get3.pl chr08_samtools.vcf chr08_col5 chr08_heisnp.vcf
+cat head chr08_heisnp.vcf > chr08_tmp
+mv chr08_tmp chr08_heisnp.vcf
+gzip chr08_heisnp.vcf
+rm get_chr08.o*
+rm errlog_chr08
+rm chr08_tmp

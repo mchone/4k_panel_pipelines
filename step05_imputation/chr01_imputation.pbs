@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -N heiip_chr01
+#PBS -l nodes=node63:ppn=1
+#PBS -l walltime=4800:00:00
+#PBS -e errlog_heiip_chr01
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+java -Xmx80g -Xss80m -jar ./beagle.08Jun17.d8b.jar gt=chr01_heisnp.vcf.gz ref=chr01_558snp.ref.vcf.gz out=chr01_hmsnp
+#rm 533hq_chr01.o*
+#rm errlog_533hq_chr01

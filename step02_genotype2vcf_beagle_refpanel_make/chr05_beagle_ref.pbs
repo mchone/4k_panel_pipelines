@@ -1,0 +1,17 @@
+#!/bin/bash
+#PBS -N chr05_ref
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=4800:00:00
+#PBS -e errlog_chr05_ref
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+#cut -f 1-9,262-464,2260,2312,2383,2496,2550,2725,2816,2837,2922,2925,2937,3018,3122,3281,3311,3330,3503,3507,3601,3604,3619,3625,3640,3655,4205,4406-4735 chr05_snp.vcf > chr05_558snp.vcf
+#sed -i '1,2d' chr05_558snp.vcf
+#cat 558title chr05_558snp.vcf >chr05_tmp
+#mv chr05_tmp chr05_558snp.vcf
+#gzip chr05_snp.vcf
+#gzip chr05_558snp.vcf
+java -Xmx200g -Xss200m -jar ./beagle.08Jun17.d8b.jar gt=chr05_558snp.vcf.gz out=chr05_558snp.ref
+rm chr05_ref.o*

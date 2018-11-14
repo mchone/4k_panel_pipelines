@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N get_chr07
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:00
+#PBS -e errlog_chr07
+
+cd $PBS_O_WORKDIR
+
+zcat chr07_558snp.ref.vcf.gz |cut -f 1-5 > chr07_col5
+perl vcf_get3.pl chr07_samtools.vcf chr07_col5 chr07_heisnp.vcf
+cat head chr07_heisnp.vcf > chr07_tmp
+mv chr07_tmp chr07_heisnp.vcf
+gzip chr07_heisnp.vcf
+rm get_chr07.o*
+rm errlog_chr07
+rm chr07_tmp

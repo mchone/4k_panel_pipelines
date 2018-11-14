@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -N merge_chr11
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=4800:00:00
+#PBS -e errlog_merge_chr11
+
+cd $PBS_O_WORKDIR
+
+gunzip chr11_snp.vcf.gz
+gunzip chr11_hmsnp.vcf.gz
+perl vcf_to_tped.pl chr11_snp.vcf chr11_hmsnp.vcf chr11.tped
+gzip chr11_snp.vcf
+gzip chr11_hmsnp.vcf
+rm errlog_merge_chr11
+rm merge_chr11.o*

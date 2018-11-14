@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N get_chr06
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:00
+#PBS -e errlog_chr06
+
+cd $PBS_O_WORKDIR
+
+zcat chr06_558snp.ref.vcf.gz |cut -f 1-5 > chr06_col5
+perl vcf_get3.pl chr06_samtools.vcf chr06_col5 chr06_heisnp.vcf
+cat head chr06_heisnp.vcf > chr06_tmp
+mv chr06_tmp chr06_heisnp.vcf
+gzip chr06_heisnp.vcf
+rm get_chr06.o*
+rm errlog_chr06
+rm chr06_tmp

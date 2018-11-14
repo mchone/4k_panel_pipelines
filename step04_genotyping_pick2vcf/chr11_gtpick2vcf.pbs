@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N get_chr11
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:00
+#PBS -e errlog_chr11
+
+cd $PBS_O_WORKDIR
+
+zcat chr11_558snp.ref.vcf.gz |cut -f 1-5 > chr11_col5
+perl vcf_get3.pl chr11_samtools.vcf chr11_col5 chr11_heisnp.vcf
+cat head chr11_heisnp.vcf > chr11_tmp
+mv chr11_tmp chr11_heisnp.vcf
+gzip chr11_heisnp.vcf
+rm get_chr11.o*
+rm errlog_chr11
+rm chr11_tmp

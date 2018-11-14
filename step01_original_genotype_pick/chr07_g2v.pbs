@@ -1,0 +1,26 @@
+#!/bin/bash
+#PBS -N chr07_g2v
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:030
+#PBS -e errlog_chr07_g2v
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+perl gt_to_vcf_for_beagle.pl chr07_4k.txt
+awk '{if ($4==0){print;}}' chr07_4k.txt_per >chr07_tmp
+awk '{if ($5<0.06){print;}}' chr07_tmp >chr07_tmp2
+awk '{if($3>0){print;}}' chr07_tmp2 > chr07_tmp3
+cut -f 1 chr07_tmp3 > chr07.list
+cp chr07_4k.txt_out chr07_out
+perl vcf_get.pl chr07
+awk '{if (length($4)==1){print;}}' chr07_snp.vcf > chr07_tmp1
+awk '{if (length($5)==1){print;}}' chr07_tmp1 >chr07_snp.vcf
+cut -f 2 chr07_snp.vcf > chr07_list
+awk '{print "Chr1",$1}' chr07_list > chr07.list
+rm chr07_tmp*
+rm chr07_list
+rm chr07_g2v.o*
+rm chr07_out
+rm errlog_chr07_g2v
+qsub chr07_beagle_ref.pbs

@@ -1,0 +1,10 @@
+#!/bin/bash
+#PBS -N keep_603
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:030
+#PBS -e errlog_keep_603
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+plink --bfile 4771 --allow-no-sex --make-bed --out 603 --keep a.list

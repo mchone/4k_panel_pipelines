@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N get_chr03
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:00
+#PBS -e errlog_chr03
+
+cd $PBS_O_WORKDIR
+
+zcat chr03_558snp.ref.vcf.gz |cut -f 1-5 > chr03_col5
+perl vcf_get3.pl chr03_samtools.vcf chr03_col5 chr03_heisnp.vcf
+cat head chr03_heisnp.vcf > chr03_tmp
+mv chr03_tmp chr03_heisnp.vcf
+gzip chr03_heisnp.vcf
+rm get_chr03.o*
+rm errlog_chr03
+rm chr03_tmp

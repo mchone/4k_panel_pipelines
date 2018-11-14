@@ -1,0 +1,9 @@
+#!/bin/bash
+#PBS -N gt_chr04
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:00
+#PBS -e errlog_gt_chr04
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+samtools mpileup -u -t DP,ADF,ADR,SP,AD -C50 -f ./reference/msu7.fa -l chr04.list -b bam.list | bcftools call -Am  -O v - > chr04_samtools.vcf

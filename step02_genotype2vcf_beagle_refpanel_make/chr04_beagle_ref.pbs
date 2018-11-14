@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -N chr04_ref
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=4800:00:00
+#PBS -e errlog_chr04_ref
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+java -Xmx200g -Xss200m -jar ./beagle.08Jun17.d8b.jar gt=chr04_558snp.vcf.gz out=chr04_558snp.ref
+rm chr04_ref.o*

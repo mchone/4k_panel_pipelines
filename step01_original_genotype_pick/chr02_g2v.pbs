@@ -1,0 +1,26 @@
+#!/bin/bash
+#PBS -N chr02_g2v
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:030
+#PBS -e errlog_chr02_g2v
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+perl gt_to_vcf_for_beagle.pl chr02_4k.txt
+awk '{if ($4==0){print;}}' chr02_4k.txt_per >chr02_tmp
+awk '{if ($5<0.06){print;}}' chr02_tmp >chr02_tmp2
+awk '{if($3>0){print;}}' chr02_tmp2 > chr02_tmp3
+cut -f 1 chr02_tmp3 > chr02.list
+cp chr02_4k.txt_out chr02_out
+perl vcf_get.pl chr02
+awk '{if (length($4)==1){print;}}' chr02_snp.vcf > chr02_tmp1
+awk '{if (length($5)==1){print;}}' chr02_tmp1 >chr02_snp.vcf
+cut -f 2 chr02_snp.vcf > chr02_list
+awk '{print "Chr1",$1}' chr02_list > chr02.list
+rm chr02_tmp*
+rm chr02_list
+rm chr02_g2v.o*
+rm chr02_out
+rm errlog_chr02_g2v
+qsub chr02_beagle_ref.pbs

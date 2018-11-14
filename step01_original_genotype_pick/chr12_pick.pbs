@@ -1,0 +1,10 @@
+#!/bin/bash
+#PBS -N chr12_pick
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:030
+#PBS -e errlog_chr12_pick
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+Rscript load.R chr12.Rdata

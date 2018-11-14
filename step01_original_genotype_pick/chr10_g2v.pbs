@@ -1,0 +1,26 @@
+#!/bin/bash
+#PBS -N chr10_g2v
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=480:00:030
+#PBS -e errlog_chr10_g2v
+#PBS -q high
+
+cd $PBS_O_WORKDIR
+
+perl gt_to_vcf_for_beagle.pl chr10_4k.txt
+awk '{if ($4==0){print;}}' chr10_4k.txt_per >chr10_tmp
+awk '{if ($5<0.06){print;}}' chr10_tmp >chr10_tmp2
+awk '{if($3>0){print;}}' chr10_tmp2 > chr10_tmp3
+cut -f 1 chr10_tmp3 > chr10.list
+cp chr10_4k.txt_out chr10_out
+perl vcf_get.pl chr10
+awk '{if (length($4)==1){print;}}' chr10_snp.vcf > chr10_tmp1
+awk '{if (length($5)==1){print;}}' chr10_tmp1 >chr10_snp.vcf
+cut -f 2 chr10_snp.vcf > chr10_list
+awk '{print "Chr1",$1}' chr10_list > chr10.list
+rm chr10_tmp*
+rm chr10_list
+rm chr10_g2v.o*
+rm chr10_out
+rm errlog_chr10_g2v
+qsub chr10_beagle_ref.pbs
